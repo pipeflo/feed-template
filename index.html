@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="no-js">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Workplace Feed</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link href="app.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://timeago.yarp.com/jquery.timeago.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        jQuery("time.timeago").timeago();
+      });
+    </script>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+      .menu {
+        list-style: none;
+        border-bottom: 0.1em solid black;
+        margin-bottom: 2em;
+        padding: 0 0 0.5em;
+      }
+
+      .menu:before {
+        content: "[";
+      }
+
+      .menu:after {
+        content: "]";
+      }
+
+      .menu > li {
+        display: inline;
+      }
+
+      .menu > li:before {
+        content: "|";
+        padding-right: 0.3em;
+      }
+
+      .menu > li:nth-child(1):before {
+        content: "";
+        padding: 0;
+      }
+
+      .x-lconn-userid {
+          text-indent: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          display: none;
+      }
+
+      .panel-heading {
+          position: fixed;
+          width: 110%;
+          border: solid 1px #e1e1e1;
+          top: -1px;
+      }
+
+      .panel-body {
+          top: 300px;
+          width: 98%;
+      }
+    </style>
+
+
+</head>
+
+<body ng-controller="MainCtrl" ng-init="init()">
+  <div ng-controller="StreamListController">
+
+    <div class="row">
+        <!-- TWEET WRAPPER START -->
+        <div class="twt-wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Actualizaciones
+                </div>
+                <br>
+                <br>
+                <div class="panel-body">
+                    <ul class="media-list">
+                        {{#payload.data}}
+                          <li class="media">
+                              <a class="pull-left">
+                                  <img src="https://apps.na.collabserv.com/contacts/profiles/photo/{{mySplit(post.actor.id, 4)}}" alt="" class="img-circle">
+                              </a>
+                              <div class="media-body">
+                                  <span class="text-muted pull-right">
+                                      <small class="text-muted" ><time class="timeago" datetime="{{created_time}}"></time></small>
+                                  </span>
+                                  <strong class="text-success" ng-bind-html="post.openSocial.embed.context.eventTitle"></strong>
+                                  <p> {{message}}</p>
+                              </div>
+                          </li>
+                        {{/payload.data}}
+                    </ul>
+
+                    <span class="text-danger">{{payload.data.length}} Actualizaciones Recientes</span>
+                    <form action="/workplace" method="post">
+                      <div class="form-group">
+
+                        <label for="exampleInputEmail1">
+                          Nuevo Post:
+                        </label>
+                        <textarea name="postText" class="form-control" rows="3"></textarea>
+                      </div>
+                      <input type="submit" id="enviar" class="btn btn-primary" value="enviar" style="font-size:12px">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- TWEET WRAPPER END -->
+    </div>
+  </div>
+</body>
+
+</html>
